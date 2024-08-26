@@ -3,7 +3,7 @@ version: "3"
 services:
   aapanel:
     build: 
-      context: ./docker-file/Dockerfile
+      context: ./docker-file
     container_name: "aapanel-webserver"
     restart: unless-stopped
     ports:
