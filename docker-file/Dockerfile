@@ -1,6 +1,8 @@
 # this is the official image of centos 7
 # https://wiki.centos.org/FAQ/CentOSStream
-FROM quay.io/centos/centos:centos7
+FROM aapanel/aapanel:lib
+
+USER root
 
 RUN yum clean all -y
 RUN yum update -y
