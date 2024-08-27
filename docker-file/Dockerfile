@@ -6,18 +6,35 @@ USER root
 RUN apt-get update -y
 RUN apt-get upgrade -y
 
-RUN apt-get install -y tzdata
+RUN apt-get clean -y
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get dist-upgrade -y
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 RUN apt-get install -y wget
 RUN apt-get install -y procps
 
 # ini aapanel install
-RUN wget -O install.sh http://www.aapanel.com/script/install_7.0_en.sh
-RUN echo 'echo -e "y\nn\n" | bash install.sh aapanel' > inst.sh
+RUN URL=https://www.aapanel.com/script/install_7.0_en.sh && if [ -f /usr/bin/curl ];then curl -ksSO "$URL" ;else wget --no-check-certificate -O install_7.0_en.sh "$URL";fi;
+RUN echo 'echo -e "y\nn\n" | bash install_7.0_en.sh aapanel' > inst.sh
 RUN bash inst.sh
-RUN /www/server/panel/pyenv/bin/python3.12 -m pip install --upgrade pip
 # end aapanel install
 
-# fix to slow bt 1  
+# ini SO installs  
+RUN apt-get install -y passwd 
+RUN apt-get install -y sudo
+RUN apt-get install -y nano
+RUN apt-get install -y iproute2
+RUN apt-get install -y net-tools
+RUN apt-get install -y locales-all
+RUN apt-get install -y procps
+RUN apt-get install -y telnet
+RUN apt-get install -y iputils-ping
+RUN apt-get install -y net-tools
+RUN apt-get install -y nmon
+RUN apt-get install -y ncdu
+RUN apt-get install -y htop
+# end SO installs
 
 COPY entrypoint.sh /entrypoint.sh
 RUN ["chmod", "+x", "/entrypoint.sh"]
