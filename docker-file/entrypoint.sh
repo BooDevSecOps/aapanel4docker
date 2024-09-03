@@ -29,7 +29,20 @@ fi
 #ini restart aapanel
 sh /restart.sh
 #end restart aapanel
+# ini nginx check and start if not running
+nginx_check() {
+    if ! pgrep -x "nginx" > /dev/null
+    then
+        echo "Nginx is not running, starting Nginx..."
+        /etc/init.d/nginx start
+    else
+        echo "Nginx is running."
+    fi
+}
 
+# Run the Nginx check
+nginx_check
+# end nginx check and start if not running
 # ini it's a healthcheck, not the best approach but it's better then original approach with tail
 sleep 10;
 while [ true ]
