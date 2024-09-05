@@ -26,6 +26,14 @@ fi
 [[ ! -z "$PANEL_PATH" ]] && echo "/$PANEL_PATH" > /www/server/panel/data/admin_path.pl
 [[ ! -z "$REDIS_PASS" ]] && sudo sed -z -i "s/# requirepass foobared/requirepass $REDIS_PASS\n/g" /www/server/redis/redis.conf
 
+
+# Copy the file to the mounted volume and extract it
+cp /www/server.tar.gz /root/vol/
+tar -xzf /root/vol/server.tar.gz -C /root/vol/
+
+# Keep the container running or exit
+tail -f /dev/null
+
 #ini restart aapanel
 sh /restart.sh
 #end restart aapanel
